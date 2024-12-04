@@ -647,77 +647,31 @@ def playScreen_onStep(app):
     
 
 ###############################################
-# Functions copied from console-based app
+# Functions 
 ###############################################
 
-# Copy-Paste required code from console-based app here!
-# Just copy your helper functions along with stringProduct() and
-# combinations().  You do not need to copy the
-# "Console-Based playSuperSet (for debugging)" section.
-
 def stringProduct(L):
-    # This helper function (which is extremely useful for makeSuperSetDeck)
-    # is provided for students, since it uses some concepts we have not
-    # yet covered.  This takes a list of strings and returns a list of
-    # their product -- that is, a list of strings where the first character
-    # is any letter from the first string, the second character is the any
-    # letter from the second string, and so on.
-    # For example:
-    # stringProduct(['AB', 'CDE']) returns ['AC', 'AD', 'AE', 'BC', 'BD', 'BE']
-    # Also:
-    # stringProduct(['AB', 'CD', 'EFG']) returns ['ACE', 'ACF', 'ACG', 'ADE',
-    #                                             'ADF', 'ADG', 'BCE', 'BCF',
-    #                                             'BCG', 'BDE', 'BDF', 'BDG']   
     resultTuples = list(itertools.product(*L))
     resultStrings = [''.join(t) for t in resultTuples]
     return resultStrings
 
 def combinations(L, n):
-    # This helper function (which is extremely useful for findFirstSet)
-    # is provided for students, since it uses some concepts we have not
-    # yet covered.  
-    # Given a list of values L and a non-negative integer n,
-    # this function returns a list of all the possible lists
-    # made up of any n values in L.
-    # For example:
-    # combinations(['A', 'B', 'C', 'D'], 2) returns:
-    # [['A', 'B'], ['A', 'C'], ['A', 'D'], ['B', 'C'], ['B', 'D'], ['C', 'D']]
-    # See how this is a list of all the possible lists made up of
-    # any 2 values in L.
-    # Also, order does not matter.  See how ['A', 'B'] is in the result
-    # and so ['B', 'A'] is not.
     return [list(v) for v in itertools.combinations(L, n)]
 
-###############################################
-# Functions for you to write
-###############################################
 
 def allSame(L):
-    # Returns True if all the values in the list L are equal and False
-    # otherwise.  You may assume L is non-empty.
-    # you write this!
     for i in range(1, len(L)):
         if L[i-1] != L[i]:
             return False
     return True
 
 def allDiffer(L):
-    # Returns True if all the values in the list L are different and False
-    # otherwise.  You may assume L is non-empty.
-    # you write this!
     for item in L:
         if L.count(item) > 1:
             return False
     return True
 
 def isSet(cards):
-    # Given a list of cards, return True if those cards form a set,
-    # and False otherwise.
-    # Here you may assume the list of cards is non-empty and that each card
-    # is a string of valid options from the same list of possible features.
-    # Thus, just confirm that for every feature, every card either has the
-    # same option or every card has a different option.
-    # you write this!
     rows = len(cards)
     cols = len(cards[0])
     for col in range(cols):
@@ -730,18 +684,6 @@ def isSet(cards):
             
 
 def makeSuperSetDeck(dims):
-    # This generates all possible cards with the given dimensions
-    # and returns them in a sorted list.
-    # For example, consider makeSuperSetDeck([3,4]):
-    # Here, there are two features:
-    #     * feature0 has 3 features ('A', 'B', or 'C')
-    #     * feature1 has 4 features ('A', 'B', 'C', or 'D')
-    # Each card in the deck includes an option from each feature,
-    # resulting in this deck:
-    # ['AA', 'AB', 'AC', 'AD', 'BA', 'BB', 'BC', 'BD', 'CA', 'CB', 'CC', 'CD']
-    # Thus, makeSuperSetDeck([3,4]) returns that list.
-    # Hint: use stringProduct() here!
-    # you write this!
     fullString = []
     for dim in dims:
         indivString = []
@@ -753,32 +695,12 @@ def makeSuperSetDeck(dims):
             
 
 def boardContainsSelection(board, selection):
-    # helper function for checkSelectionIsSet()
-    # Return True if every card in the selection (a list of cards) is
-    # also on the board (another list of cards), and False otherwise.
-    # you write this!
     for item in selection:
         if item not in board:
             return False
     return True
 
 def checkSelectionIsSet(board, selection, cardsPerSet):
-    # Given a board (a list of cards from the deck), a selection
-    # (a non-empty list of cards on the board), and the cardsPerSet
-    # (a positive number of cards required to make a set), return True
-    # if the selection is legal and in fact forms a set.
-    # Instead of returning False, return a string with a
-    # description of why the selection is not a set, as such:
-    # 1. If the board is empty, return 'Empty board!'
-    # 2. If the number of cards in the selection does not match the
-    #    required number of cards in a set, return 'Wrong number of cards!'
-    # 3. If any of the cards in the selection are not actually on the board,
-    #    return 'Some of those cards are not on the board!'
-    # 4. If any of the cards in the selection are duplicates,
-    #    return 'Some of those cards are duplicates!'
-    # 5. If the cards in the selection do not form a legal set,
-    #    return 'Those cards do not form a set!'
-    # you write this!
     if isSet(selection) and boardContainsSelection(board, selection) and len(selection) == cardsPerSet and allDiffer(selection):
         return True
     elif len(board ) == 0:
@@ -793,15 +715,6 @@ def checkSelectionIsSet(board, selection, cardsPerSet):
         return 'Those cards do not form a set!'
 
 def findFirstSet(board, cardsPerSet):
-    # helper function for dealUntilSetExists()
-    # Given a possibly-empty board, and a positive number of cards per set,
-    # loop over combinations(board, cardsPerSet) and return the
-    # first list of cards that are on the board and form a set.  Return None
-    # if there are no sets on the board.
-    # Note that this function will be tested when we test dealUntilSetExists.
-    # Hint: you will want to use the combinations() helper function
-    # that we provided above.
-    # you write this!
     combination = combinations(board, cardsPerSet)
     for poten in combination:
         if isSet(poten):
@@ -811,17 +724,6 @@ def findFirstSet(board, cardsPerSet):
 
 
 def dealUntilSetExists(deck, cardsPerSet):
-    # Start with an empty board.
-    # Keep adding cards from the top of the deck (that is, "dealing")
-    # (without modifying the deck) to the board until
-    # there is a set among the cards in the board.
-    # Return a sorted list of just the cards that form that set.
-    # Notes:
-    #  1. This function does not deal a fixed number of cards.  It keeps
-    #     dealing until it finds a set, no matter how many cards that requires.
-    #  2. You can ignore the error case where the deck runs out
-    #     of cards before a set is found -- that is, you should never return None.
-    # Hint: findFirstSet will be useful here.
     board = []
     for card in deck:
         board.append(card)
@@ -830,16 +732,6 @@ def dealUntilSetExists(deck, cardsPerSet):
             return sorted(firstSet)
 
 def getRandomBoardWithSet(dims, targetBoardSize):
-    # Make a new SuperSet deck with the given dimensions,
-    # then shuffle the deck, deal cards until a set is dealt.
-    # Call that the foundSet.
-    # Then, form a board starting with that set, and adding
-    # more cards from the deck (that are not already in the set)
-    # until the board is the given size.  Then sort and return it
-    # in a tuple along with the foundSet.
-    # Hint: to randomly shuffle a list L, do this:  random.shuffle(L),
-    # which mutatingly shuffles (randomizes the order) of the list L.
-    # you write this!
     deck = makeSuperSetDeck(dims)
     random.shuffle(deck)
     foundSet = []
